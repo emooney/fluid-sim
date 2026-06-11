@@ -1,41 +1,49 @@
 # 🌊 Interactive Real-Time Fluid Simulation
 
-A GPU-accelerated 2D Navier-Stokes fluid solver running entirely in your browser via WebGL.
+A single-file, browser-native 2D Navier–Stokes fluid lab that runs with Canvas 2D and vanilla JavaScript. Drag the mouse to push and paint smoke-like fluid, tune the solver live, and switch visualization modes while it runs.
 
-## 🚀 Live Demo
+## 🚀 Run It
 
-Open `index.html` in any modern browser, or [view it on GitHub Pages](https://TMooney27.github.io/fluid-sim).
+- Open `index.html` directly in a modern browser, or serve it locally with any static web server.
+- GitHub Pages target after Pages is enabled: <https://emooney.github.io/fluid-sim>
 
-## 🖱️ Controls
+## 🖱️ Interaction
 
-- **Left click + drag** → Push fluid around
-- **Right click + drag** → Inject dye only
-- **Touch** → Fully supported on mobile/tablet
+- **Left drag**: push the fluid and inject dye.
+- **Right drag**: push fluid without dye by default.
+- **Touch / pen**: supported via Pointer Events.
+- **Space**: pause/resume.
+- **R**: reset fluid.
+- **H**: hide/show controls.
+- **E**: toggle auto emitters.
 
-## 🎛️ Settings & Dials (24+ controls)
+## 🎛️ Settings & Dials
 
-| Category | Controls |
-|---|---|
-| **Physics** | Viscosity, Diffusion, Speed (dt), Grid Resolution (32–512), Jacobi Iterations |
-| **Behavior** | Advection on/off, Vorticity Confinement on/off, Curl Strength, Density Decay, Velocity Damping |
-| **Brush** | Radius, Force, Dye Intensity, Auto-Splats toggle, Splat Interval |
-| **Color** | Hue, Saturation, Luminosity Mix, Color Cycle toggle, Cycle Speed |
-| **Visuals** | Pause, Show Grid, Show Velocity Vectors, Vignette, Bloom Intensity |
-| **Actions** | Reset Fluid, Randomize all settings |
+The control panel includes 35+ live controls:
+
+- **Simulation**: simulation resolution, dye resolution, timestep, substeps, pressure iterations, pressure fade.
+- **Physics**: velocity damping, dye persistence, vorticity curl, buoyancy, X/Y gravity.
+- **Brush**: radius, push force, dye amount, spray jitter, paint/velocity-only/dye-only/erase modes, right-drag dye toggle.
+- **Color**: hue, saturation, brightness, rainbow cycling, velocity color blending.
+- **Emitters**: auto emitter toggle, emitter count, emitter strength, orbit radius.
+- **Display**: dye/velocity/pressure/curl views, exposure, contrast, glow, glow radius, background lift, vignette, grid overlay, velocity vector dots.
+- **Presets**: Seed Plumes, Reset, Silk, Storm, Smoke.
 
 ## 🧪 Solver Pipeline
 
-1. **Advection** — Semi-Lagrangian backtrace with bilinear sampling
-2. **Vorticity Confinement** — Re-injects lost curl for swirling detail
-3. **Pressure Projection** — Divergence → Jacobi relaxation → gradient subtract (mass conservation)
-4. **Display** — HSL color mapping + bloom + vignette + optional grid/vector overlay
+1. **Semi-Lagrangian advection** for velocity and dye.
+2. **External forces** for brush splats, gravity, buoyancy, and auto emitters.
+3. **Vorticity confinement** to restore swirling detail lost during advection.
+4. **Pressure projection** with Jacobi relaxation to keep the velocity field approximately incompressible.
+5. **Display shader** with tone mapping, glow, velocity/pressure/curl debug views, grid, and vector-dot overlays.
 
 ## 📂 Files
 
-- `index.html` — Single-file simulation (no build step, no dependencies)
+- `index.html` — Single-file WebGL 2 simulation; no dependencies or build step.
+- `README.md` — This documentation.
 
-## 🛠️ Made With
+## 🛠️ Tech
 
-- WebGL 1.0
+- Canvas 2D renderer
 - Vanilla JavaScript
-- Navier-Stokes solver on GPU fragment shaders
+- CPU Stable Fluids / Navier–Stokes solver
